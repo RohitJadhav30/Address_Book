@@ -106,8 +106,13 @@ class AddressBook {
     }
 
     public void displayContacts() {
-        for (Contact contact : contacts) {
-            System.out.println(contact);
+        if(contacts.isEmpty()){
+            System.out.println("There is no contacts in the the Address Book");
+        }
+        else{
+            for (Contact contact : contacts) {
+                System.out.println(contact);
+            }
         }
     }
 
@@ -119,6 +124,21 @@ class AddressBook {
         }
         return null;
     }
+
+    public boolean deleteContact(String firstName, String lastName) {
+        Contact contactToRemove = null;
+        for (Contact contact : contacts) {
+            if (contact.getFirstName().equalsIgnoreCase(firstName) && contact.getLastName().equalsIgnoreCase(lastName)) {
+                contactToRemove = contact;
+                break;
+            }
+        }
+        if (contactToRemove != null) {
+            contacts.remove(contactToRemove);
+            return true;
+        }
+        return false;
+    }
 }
 
 public class AddressBookMain {
@@ -128,13 +148,14 @@ public class AddressBookMain {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("# Welcome to Address Book Program #");
             System.out.println("\nChoose an option:");
             System.out.println("1. Add a new contact");
             System.out.println("2. Edit an existing contact");
-            System.out.println("3. Display all contacts");
-            System.out.println("4. Exit");
+            System.out.println("3. Delete a contact");
+            System.out.println("4. Display all contacts");
+            System.out.println("5. Exit");
 
+            System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -146,9 +167,12 @@ public class AddressBookMain {
                     editExistingContact(addressBook, scanner);
                     break;
                 case 3:
-                    addressBook.displayContacts();
+                    deleteContact(addressBook, scanner);
                     break;
                 case 4:
+                    addressBook.displayContacts();
+                    break;
+                case 5:
                     System.out.println("Exiting program...");
                     scanner.close();
                     return;
@@ -250,5 +274,18 @@ public class AddressBookMain {
         System.out.println("Contact updated successfully!");
     }
 
-}
+    private static void deleteContact(AddressBook addressBook, Scanner scanner) {
+        System.out.println("\nEnter the first name of the contact you want to delete:");
+        String firstName = scanner.nextLine();
+        System.out.println("Enter the last name of the contact:");
+        String lastName = scanner.nextLine();
 
+        boolean deleted = addressBook.deleteContact(firstName, lastName);
+        if (deleted) {
+            System.out.println("Contact deleted successfully!");
+        } else {
+            System.out.println("Contact not found.");
+        }
+    }
+
+}
