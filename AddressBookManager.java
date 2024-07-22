@@ -49,7 +49,6 @@ public class AddressBookManager {
         }
     }
 
-    // New method to select an Address Book
     private static void selectAddressBook() {
         System.out.print("\nEnter the name of the Address Book to select: ");
         String addressBookName = scanner.nextLine();
@@ -137,8 +136,6 @@ public class AddressBookManager {
 
         Contact newContact = new Contact(firstName, lastName, address, city, state, zip, phoneNumber, email);
         addressBook.addContact(newContact);
-
-        System.out.println("Contact added successfully!");
     }
 
     private static void editExistingContact(AddressBook addressBook) {
