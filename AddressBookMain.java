@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 class Contact {
     private String firstName;
@@ -88,7 +89,7 @@ class Contact {
 
     @Override
     public String toString() {
-        return "##" + "firstName='" + firstName + '\'' +
+        return "## " + "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", city='" + city + '\'' +
@@ -96,6 +97,24 @@ class Contact {
                 ", zip='" + zip + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' ;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this ==obj)
+            return true;
+
+        if(obj == null || getClass() != obj.getClass()){
+            return false;
+        }
+
+        Contact contact = (Contact)obj;
+        return Objects.equals(firstName, contact.firstName) && Objects.equals(lastName, contact.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
     }
 }
 
@@ -107,7 +126,13 @@ class AddressBook {
     }
 
     public void addContact(Contact contact) {
-        contacts.add(contact);
+        if(contacts.stream().anyMatch(c -> c.equals(contact))){
+            System.out.println("Duplicate Entry. Contact already exists");
+        }
+        else{
+            contacts.add(contact);
+            System.out.println("Contact added succesfully!");
+        }
     }
 
     public void displayContacts() {
