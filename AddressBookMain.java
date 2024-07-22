@@ -188,6 +188,14 @@ class AddressBook {
         return contacts;
     }
 
+    public long getCountByCity(String city){
+        return getContactByCity(city).size();
+    }
+
+    public long getCountByState(String state){
+        return getContactByState(state).size();
+    }
+
     public Contact findContactByName(String firstName, String lastName) {
         for (Contact contact : contacts) {
             if (contact.getFirstName().equalsIgnoreCase(firstName) && contact.getLastName().equalsIgnoreCase(lastName)) {
