@@ -1,6 +1,8 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBookManager {
     private static Map<String, AddressBook> addressBookMap = new HashMap<>();
@@ -12,7 +14,8 @@ public class AddressBookManager {
             System.out.println("1. Add a new Address Book");
             System.out.println("2. Select an Address Book");
             System.out.println("3. Show all Address Books");
-            System.out.println("4. Exit");
+            System.out.println("4. Search for Person using City/State");
+            System.out.println("5. Exit");
 
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -29,6 +32,9 @@ public class AddressBookManager {
                     showAllAddressBooks();
                     break;
                 case 4:
+                    searchByCityOrState();
+                    break;
+                case 5:
                     System.out.println("Exiting program...");
                     scanner.close();
                     return;
@@ -210,5 +216,24 @@ public class AddressBookManager {
         } else {
             System.out.println("Contact not found.");
         }
+    }
+
+    private static void searchByCityOrState(){
+        System.out.println("Search for person by city or state");
+        System.out.print("Enter the city: ");
+        String city = scanner.nextLine();
+        System.out.print("Enter the state: ");
+        String state = scanner.nextLine();
+
+        List<Contact> result = addressBookMap.values().stream().flatMap(addressBook -> addressBook.geContacts().stream()).filter(contact -> contact.getCity().equalsIgnoreCase(city) || contact.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
+
+        if(result.isEmpty()){
+            System.out.println("No contacts found in the specified city or state.");
+        }
+        else{
+            System.out.println("Search result: ");
+            result.forEach(System.out::println);
+        }
+        System.out.println("Returning to main menu...");
     }
 }
