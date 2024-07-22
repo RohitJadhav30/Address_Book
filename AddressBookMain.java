@@ -145,6 +145,10 @@ class AddressBook {
         }
     }
 
+    public List<Contact> geContacts(){
+        return contacts;
+    }
+
     public Contact findContactByName(String firstName, String lastName) {
         for (Contact contact : contacts) {
             if (contact.getFirstName().equalsIgnoreCase(firstName) && contact.getLastName().equalsIgnoreCase(lastName)) {
