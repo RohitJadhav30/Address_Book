@@ -16,7 +16,8 @@ public class AddressBookManager {
             System.out.println("3. Show all Address Books");
             System.out.println("4. Search for Person using City/State");
             System.err.println("5. view person by city/state");
-            System.out.println("6. Exit");
+            System.out.println("6. Sort contacts by Name");
+            System.out.println("7. Exit");
 
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -39,6 +40,9 @@ public class AddressBookManager {
                     viewPersonByCityOrState();
                     break;
                 case 6:
+                    sortContactsByName();
+                    break;
+                case 7:
                     System.out.println("Exiting program...");
                     scanner.close();
                     return;
@@ -288,7 +292,7 @@ public class AddressBookManager {
                 }
                 break;
 
-                case "state":
+            case "state":
                 System.out.print("Enter the city: ");
                 String state = scanner.nextLine();
                 List<Contact> contactsByState = addressBookMap.values().stream().flatMap(addressBook -> addressBook.getContactByState(state).stream()).collect(Collectors.toList());
@@ -306,8 +310,19 @@ public class AddressBookManager {
                 break;
         
             default:
-            System.out.println("invalid option");
+                System.out.println("invalid option");
         }
         System.out.println("Returning to main menu");
+    }
+
+    private static void sortContactsByName(){
+        if(addressBookMap.isEmpty()){
+            System.out.println("No address books available");
+        }else{
+            for(AddressBook books: addressBookMap.values()){
+                books.sortContactsByName();
+            }
+            System.out.println("Contacts sorted alphabetically in all address books");
+        }
     }
 }
