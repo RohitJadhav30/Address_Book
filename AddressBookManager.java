@@ -15,7 +15,8 @@ public class AddressBookManager {
             System.out.println("2. Select an Address Book");
             System.out.println("3. Show all Address Books");
             System.out.println("4. Search for Person using City/State");
-            System.out.println("5. Exit");
+            System.err.println("5. view person by city/state");
+            System.out.println("6. Exit");
 
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -35,6 +36,9 @@ public class AddressBookManager {
                     searchByCityOrState();
                     break;
                 case 5:
+                    viewPersonByCityOrState();
+                    break;
+                case 6:
                     System.out.println("Exiting program...");
                     scanner.close();
                     return;
@@ -42,6 +46,45 @@ public class AddressBookManager {
                     System.out.println("Invalid choice. Please choose again.");
             }
         }
+    }
+
+    private static void viewPersonByCityOrState(){
+        System.out.print("Enter 'city' to view by city or 'state' to view by state: ");
+        String option = scanner.nextLine().trim().toLowerCase();
+
+        switch (option) {
+            case "city":
+                System.out.print("Enter the city: ");
+                String city = scanner.nextLine();
+                List<Contact> contactsByCity = addressBookMap.values().stream().flatMap(addressBook -> addressBook.getContactByCity(city).stream()).collect(Collectors.toList());
+
+                if(contactsByCity.isEmpty()){
+                    System.out.println("No contacts found in specified city");
+                }
+                else{
+                    System.out.println("Contacts in city: " + city);
+                    contactsByCity.forEach(System.out::println);
+                }
+                break;
+
+                case "state":
+                System.out.print("Enter the city: ");
+                String state = scanner.nextLine();
+                List<Contact> contactsByState = addressBookMap.values().stream().flatMap(addressBook -> addressBook.getContactByState(state).stream()).collect(Collectors.toList());
+
+                if(contactsByState.isEmpty()){
+                    System.out.println("No contacts found in specified city");
+                }
+                else{
+                    System.out.println("Contacts in city: " + state);
+                    contactsByState.forEach(System.out::println);
+                }
+                break;
+        
+            default:
+            System.out.println("invalid option");
+        }
+        System.out.println("returning to main menu");
     }
 
     private static void addNewAddressBook() {
