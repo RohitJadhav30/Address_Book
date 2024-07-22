@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 class Contact {
@@ -120,9 +123,15 @@ class Contact {
 
 class AddressBook {
     private List<Contact> contacts;
+    private Map<String, List<Contact>> cityDictionary;
+    private Map<String, List<Contact>> stateDictionary;
+
+
 
     public AddressBook() {
         this.contacts = new ArrayList<>();
+        this.cityDictionary = new HashMap<>();
+        this.stateDictionary = new HashMap<>();
     }
 
     public void addContact(Contact contact) {
@@ -131,8 +140,38 @@ class AddressBook {
         }
         else{
             contacts.add(contact);
+            addToDictionary(contact);
             System.out.println("Contact added succesfully!");
         }
+    }
+
+    public void addToDictionary(Contact contact){
+        cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
+        stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+    }
+
+    public void updateContact(Contact oldContact, Contact newContact){
+        if(contacts.remove(oldContact)){
+            contacts.add(newContact);
+            updateDictionary(oldContact, newContact);
+            System.out.println("Contact updated succesfully");
+        }else{
+            System.err.println("Contact not found");
+        }
+    }
+
+    private void updateDictionary(Contact oldContact, Contact newContact){
+        cityDictionary.getOrDefault(oldContact.getCity(), new ArrayList<>()).remove(oldContact);
+        stateDictionary.getOrDefault(oldContact.getState(), new ArrayList<>()).remove(oldContact);
+        addToDictionary(newContact);
+    }
+
+    public List<Contact> getContactByCity(String city){
+        return cityDictionary.getOrDefault(city, Collections.emptyList());
+    }
+
+    public List<Contact> getContactByState(String state){
+        return stateDictionary.getOrDefault(state, Collections.emptyList());
     }
 
     public void displayContacts() {
