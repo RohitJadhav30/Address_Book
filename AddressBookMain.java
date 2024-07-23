@@ -225,4 +225,18 @@ class AddressBook {
     public void sortContactsByName(){
         contacts = contacts.stream().sorted(Comparator.comparing(Contact::getFirstName).thenComparing(Contact::getLastName)).collect(Collectors.toList());
     }
+
+    public void sortContactsByCity(){
+        contacts.sort(Comparator.comparing(Contact::getCity).thenComparing(Contact::getFirstName).thenComparing(Contact::getLastName));
+    }
+
+    public void sortContactsByState(){
+        contacts.sort(Comparator.comparing(Contact::getState).thenComparing(Contact::getFirstName).thenComparing(Contact::getLastName));
+    }
+
+    public void sortContactsByZip(){
+        contacts.sort(Comparator.comparing(Contact::getZip).thenComparing(Contact::getFirstName).thenComparing(Contact::getLastName));
+    }
+
+
 }

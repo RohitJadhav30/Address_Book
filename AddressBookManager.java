@@ -16,7 +16,7 @@ public class AddressBookManager {
             System.out.println("3. Show all Address Books");
             System.out.println("4. Search for Person using City/State");
             System.err.println("5. view person by city/state");
-            System.out.println("6. Sort contacts by Name");
+            System.out.println("6. Sort contacts");
             System.out.println("7. Exit");
 
             System.out.print("Enter your choice: ");
@@ -40,7 +40,7 @@ public class AddressBookManager {
                     viewPersonByCityOrState();
                     break;
                 case 6:
-                    sortContactsByName();
+                    sortContacts();
                     break;
                 case 7:
                     System.out.println("Exiting program...");
@@ -315,12 +315,68 @@ public class AddressBookManager {
         System.out.println("Returning to main menu");
     }
 
+    private static void sortContacts(){
+        System.out.println("Enter 'name' to sort by name, Enter 'city' to sort by city, Enter 'state' to sort by state, Enter 'zip' to sort by zip: ");
+        String option = scanner.nextLine().trim().toLowerCase();
+
+        switch (option) {
+            case "name":
+                sortContactsByName();
+                break;
+            case "city":
+                sortContactsByCity();
+                break;
+            case "state":
+                sortContactsByState();
+                break;
+            case "zip":
+                sortContactsByZip();
+                break;
+            default:
+                System.out.println("Invalid Option");;
+        }
+        System.out.println("Returning to main menu");
+    }
+
     private static void sortContactsByName(){
         if(addressBookMap.isEmpty()){
             System.out.println("No address books available");
         }else{
             for(AddressBook books: addressBookMap.values()){
                 books.sortContactsByName();
+            }
+            System.out.println("Contacts sorted alphabetically in all address books");
+        }
+    }
+
+    private static void sortContactsByCity(){
+        if(addressBookMap.isEmpty()){
+            System.out.println("No address books available");
+        }else{
+            for(AddressBook books: addressBookMap.values()){
+                books.sortContactsByCity();
+            }
+            System.out.println("Contacts sorted alphabetically in all address books");
+        }
+    }
+
+    private static void sortContactsByState(){
+        if(addressBookMap.isEmpty()){
+            System.out.println("No address books available");
+        }else{
+            for(AddressBook books: addressBookMap.values()){
+                books.sortContactsByState();
+            }
+            System.out.println("Contacts sorted alphabetically in all address books");
+        }
+    }
+
+    private static void sortContactsByZip(){
+        if(addressBookMap.isEmpty()){
+            System.out.println("No address books available");
+        }else{
+            for(AddressBook books: addressBookMap.values()){
+                books.sortContactsByZip();
             }
             System.out.println("Contacts sorted alphabetically in all address books");
         }
